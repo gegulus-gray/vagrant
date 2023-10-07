@@ -1,0 +1,60 @@
+$script = <<-SCRIPT
+echo hello world....
+mkdir bin
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+
+    config.vm.define "server1" do |ser1|    
+        ser1.vm.provider "virtualbox" do |vb_ser1|
+            vb_ser1.memory = "4092"
+            vb_ser1.cpus = 2
+        end
+
+        ser1.vm.box = "centos/7"
+        ser1.vm.hostname = "grafana"
+        ser1.vm.network "private_network", ip: "192.168.2.3"
+
+        # ser1.vm.provision "shell", inline: <<-SHELL
+        #     useradd  grafana  
+
+        #     SHELL
+    end
+
+    config.vm.define "server2" do |ser2|
+        ser2.vm.provider "virtualbox" do |vb_ser2|
+            vb_ser2.memory = "4092"
+            vb_ser2.cpus = 2
+        end
+
+        ser2.vm.box = "centos/7"
+        ser2.vm.hostname = "prometheus"
+        ser2.vm.network "private_network", ip: "192.168.2.4"
+    end
+
+    config.vm.define "server3" do |ser3|
+        ser3.vm.provider "virtualbox" do |vb_ser3|
+            vb_ser3.memory = "4092"
+            vb_ser3.cpus = 2
+        end
+
+        ser3.vm.box = "centos/7"
+        ser3.vm.hostname = "web-server1"
+        ser3.vm.network "private_network", ip: "192.168.2.5"
+    end
+
+    config.vm.define "server4" do |ser4|
+        ser4.vm.provider "virtualbox" do |vb_ser4|
+            vb_ser4.memory = "4092"
+            vb_ser4.cpus = 2
+        end
+
+        ser4.vm.box = "centos/7"
+        ser4.vm.hostname = "web-server2"
+        ser4.vm.network "private_network", ip: "192.168.2.6"
+    end
+
+    config.vm.provision "shell", inline: $script
+
+end
