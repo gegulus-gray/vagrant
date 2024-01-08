@@ -1,0 +1,36 @@
+
+Vagrant.configure("2") do |config|
+
+    config.vm.define "server1" do |ser1|    
+        ser1.vm.provider "virtualbox" do |vb_ser1|
+            vb_ser1.cpus = 2
+            vb_ser1.memory = "2048"
+            vb_ser1.name = "master"
+        end
+
+        ser1.vm.box = 'centos/7'
+        ser1.vm.hostname = "server-test"
+        ser1.vm.network  "private_network", ip: "192.168.20.11" 
+        #ser1.vm.network "forwarded_port", guest: 80, host: 8080
+
+        ser1.vm.provision "shell", path: "./install-initial-centos.sh" 
+    end
+
+    config.vm.define "server2" do |ser2|    
+        ser2.vm.provider "virtualbox" do |vb_ser2|
+            vb_ser2.cpus = 2
+            vb_ser2.memory = "2048"
+            vb_ser2.name = "worker"
+        end
+
+        ser2.vm.box = 'ubuntu/focal64'
+        ser2.vm.hostname = "server-test"
+        ser2.vm.network  "private_network", ip: "192.168.20.12" 
+        #ser1.vm.network "forwarded_port", guest: 80, host: 8080
+
+        ser2.vm.provision "shell", path: "./install-initial-ubuntu.sh" 
+
+
+    end
+
+end

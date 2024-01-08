@@ -1,0 +1,19 @@
+
+Vagrant.configure("2") do |config|
+
+    config.vm.define "server1" do |ser1|    
+        ser1.vm.provider "virtualbox" do |vb_ser1|
+            vb_ser1.cpus = 2
+            vb_ser1.memory = "2048"
+            vb_ser1.name = "test-service"
+        end
+
+        ser1.vm.box = 'ubuntu/focal64'
+        ser1.vm.hostname = "server-test"
+        ser1.vm.network  "private_network", ip: "192.168.50.11" 
+        #ser1.vm.network "forwarded_port", guest: 80, host: 8080
+
+        ser1.vm.provision "shell", path: "./install-initial.sh" 
+    end
+
+end
